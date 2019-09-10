@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ht.shop.mapper.ProductMapper">
+    <select id="selectAll"  resultType="com.ht.shop.entity.Product">
+        select * from tb_product;
+    </select>
+
+    <select id="selectProductListByShopId" parameterType="java.lang.String"  resultType="com.ht.shop.entity.Product">
+        select * from tb_product WHERE shop_id = #{shopId};
+    </select>
+
+    <select id="selectProductByProductId" parameterType="java.lang.String"  resultType="com.ht.shop.entity.Product">
+        select * from tb_product WHERE product_id = #{productId};
+    </select>
+    <insert id="insert" parameterType="com.ht.shop.entity.Product">
+        INSERT INTO
+          tb_product(product_id,product_name,product_category_id,shop_id,original_price,present_price,create_time,last_edit_time,
+                     thumbnail,priority,enable_status,product_desc)
+        VALUES (#{product.productId},#{product.productName},#{product.productCategoryId},#{product.shopId},
+                #{product.originalPrice},#{product.presentPrice},#{product.createTime},
+                #{product.lastEditTime},#{product.thumbnail},#{product.priority},#{product.enableStatus},#{product.productDesc})
+
+    </insert>
+    <update id="update" parameterType="com.ht.shop.entity.Product">
+        UPDATE tb_product
+        <set>
+            <if test="productName!=null">product_name=#{productName},</if>
+            <if test="productCategoryId!=null">product_category_id=#{productCategoryId},</if>
+            <if test="originalPrice!=null">original_price=#{originalPrice},</if>
+            <if test="presentPrice!=null">present_price=#{presentPrice},</if>
+            <if test="thumbnail!=null">thumbnail=#{thumbnail},</if>
+            <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
+            <if test="priority!=null">priority=#{priority},</if>
+            <if test="productDesc!=null">product_desc=#{productDesc},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="shopId!=null">shop_id=#{shopId},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+        </set>
+          WHERE product_id = #{productId}
+    </update>
+</mapper>

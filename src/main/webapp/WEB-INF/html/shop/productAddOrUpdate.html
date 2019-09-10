@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>绵师校园商铺</title>
+    <meta name="description" content="MSUI: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="绵师校园商铺">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+
+
+</head>
+<body>
+<div class="page-group">
+    <div id="page-label-input" class="page">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left back" href="/demos/form">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+            <h1 class="title" id="myTitle">商品添加</h1>
+        </header>
+        <div class="content">
+            <div class="list-block">
+                <ul>
+                    <!-- Text inputs -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">商品名称</div>
+                                <div class="item-input">
+                                    <input type="text" id="productName" name="productName" placeholder="请输入商品名称">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">商品类别</div>
+                                <div class="item-input">
+                                    <select id="productCategory" name="productCategoryId">
+
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">优先级</div>
+                                <div class="item-input">
+                                    <input type="text" id="priority" name="priority" placeholder="数字越大排在最前面">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">原价</div>
+                                <div class="item-input">
+                                    <input type="text" id="originalPrice" name="originalPrice">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">现价</div>
+                                <div class="item-input">
+                                    <input type="text" id="presentPrice" name="presentPrice">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">商品图片</div>
+                                <div class="item-input">
+                                    <input type="file" id="thumbnail" name="thumbnail">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">商品描述</div>
+                                <div class="item-input">
+                                    <input type="text" id="productDesc" name="productDesc">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a href="javascript:history.go(-1)"
+                                           class="button button-big button-fill button-danger">返回</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success"
+                                           onclick="saveOrUpdate()">提交</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type='text/javascript' src='https://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='https://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='https://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script type="text/javascript" src="../resource/js/shop/product.js"></script>
+<script type="text/javascript" src="../resource/js/common/common.js"></script>
+<script>
+
+    $(function () {
+        //获取店铺id
+        var shopId = getQueryString("shopId");
+        if (shopId == "") {
+            //没有参数，返回到商品列表
+            window.location.href = "../shopadmin/product_List.do";
+            return;
+        }
+        //获取商品id 如果有则为编辑 没有则为添加新商品
+        var productId = getQueryString("productId");
+        if (productId != "") {
+            $("#myTitle").text("商品编辑");
+
+            var productUrl = "../shopadmin/getProductById.do?productId=" + productId;
+            $.ajax({
+                url: productUrl,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data.success) {
+                        var product = data.entity;
+
+                        $("#productName").val(product.productName);
+
+                       // $("#productCategory").val(product.productCategoryId);
+                        $("#priority").val(product.priority);
+                        $("#originalPrice").val(product.originalPrice);
+                        $("#presentPrice").val(product.presentPrice);
+                        $("#productDesc").val(product.productDesc);
+
+                    } else {
+                        alert("获取商品数据失败");
+                        window.history.go(-1);
+                    }
+                },
+                error: function () {
+                    alert("error:获取商品数据失败");
+                    window.history.go(-1);
+                }
+            });
+
+
+        }
+
+
+        //加载商品分类
+        var url = "../shopadmin/getProductCategoryListByShopId.do?shopId=" + shopId;
+        alert(url);
+        $.ajax({
+            url: url,
+            async: true,
+            type: "GET",
+            success: function (data) {
+                if (data.success) {
+                    var categoryList = data.list;
+                    for (var i = 0; i < categoryList.length; i++) {
+                        $("#productCategory").append("<option value='" + categoryList[i].productCategoryId + "'>" + categoryList[i].productCategoryName + "</option>");
+                    }
+
+                } else {
+                    alert("加载商品分类失败,请稍后再试");
+
+                }
+            },
+            error: function () {
+                alert("error：操作失败")
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

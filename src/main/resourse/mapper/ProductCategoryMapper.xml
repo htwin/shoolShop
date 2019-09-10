@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ht.shop.mapper.ProductCategoryMapper">
+
+    <!--parentId==0 为父结点-->
+    <select id="getProductCategoryByShopId" parameterType="java.lang.String" resultType="com.ht.shop.entity.ProductCategory">
+
+      SELECT * FROM tb_product_category WHERE shop_id=#{shopId} ORDER BY priority DESC;
+
+    </select>
+
+    <insert id="insert" parameterType="com.ht.shop.entity.ProductCategory">
+        INSERT INTO
+          tb_product_category(product_category_id,shop_id,product_category_name,priority,create_time)
+        VALUES
+            (#{productCategory.productCategoryId},#{productCategory.shopId},#{productCategory.productCategoryName},
+                #{productCategory.priority},#{productCategory.createTime})
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+      DELETE FROM tb_product_category WHERE product_category_id=#{productCategoryId}
+    </delete>
+</mapper>

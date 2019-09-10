@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>绵师校园商铺</title>
+    <meta name="description" content="MSUI: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="绵师校园商铺">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet" href="../resource/css/product.css">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+
+</head>
+<body>
+<div class="page-group">
+    <div id="page-label-input" class="page">
+        <header class="bar bar-nav" >
+            <h1 class='title'>商品列表</h1>
+        </header>
+        <div class="content" style="margin-top: 50px">
+            <div id="categoryList" class="content-block">
+                <div class="row">
+                    <div class="col-33">商品名称</div>
+                    <div class="col-33">优先级</div>
+                    <div class="col-33">操作</div>
+                </div>
+
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50">
+                        <a href="#" onclick="addProduct()" class="button button-fill">新增</a>
+                    </div>
+                    <div class="col-50">
+                        <a href="javascript:history.go(-1)" class="button button-fill">返回</a>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<script type='text/javascript' src='https://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='https://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='https://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+
+<script type="text/javascript" src="../resource/js/shop/product.js"></script>
+<script type="text/javascript" src="../resource/js/common/common.js"></script>
+<script>
+    $(function () {
+//获取参数
+        var shopId = getQueryString("shopId");
+        if(shopId == ""){
+            //没有参数，返回到商铺列表
+            window.location.href="../shopadmin/shopList.do";
+            return;
+        }
+
+        var url = "../shopadmin/findProductListByShopId.do?shopId="+shopId;
+
+        $.ajax({
+            url: url,
+            type:"GET",
+            async: true,
+            success: function (data) {
+                if (data.success) {
+                    if(data.list.length<1){
+                        alert("没有商品数据，请新增商品");
+                        return;
+                    }
+                    var productList = data.list;
+                    for (var i = 0; i < productList.length; i++) {
+                        var product = productList[i];
+                        $("#categoryList").append("<div class='row'>" +
+                            "<div class='col-33'>" + product.productName + "</div>" +
+                            "<div class='col-33'>" + product.priority + "</div>" +
+                            "<div class='col-11'><a class='operation' href='#' onclick=doUpdateProduct('"+product.productId+"') external>编辑</a></div>" +
+                            "<div class='col-11'><a class='operation' href='#' onclick=updateEnbaleStatus('"+product.productId+"') external>上架</a></div>" +
+                            "<div class='col-11'><a class='operation' href='#' onclick=preview('"+product.productId+"') external>预览</a></div></div>")
+                    }
+
+                } else {
+                    alert("加载商品列表失败");
+                    window.history.go(-1);
+                }
+            },
+            error: function () {
+                alert("error:加载商品列表失败");
+                window.history.go(-1);
+            }
+        })
+
+    });
+</script>
+
+</body>
+</html>

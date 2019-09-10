@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ht.shop.mapper.ShopMapper">
+
+    <resultMap id="shopMap" type="com.ht.shop.entity.vo.ShopVo">
+        <id column="shop_id" property="shopId"></id>
+        <result column="shop_name" property="shopName"></result>
+        <result column="shop_desc" property="shopDesc"></result>
+        <result column="shop_addr" property="shopAddr"></result>
+        <result column="phone" property="phone"></result>
+        <result column="shop_img" property="shopImg"></result>
+        <result column="priority" property="priority"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="last_edit_time" property="lastEditTime"></result>
+        <result column="enable_status" property="enableStatus"></result>
+        <result column="advice" property="advice"></result>
+        <association property="area" javaType="com.ht.shop.entity.Area">
+            <id column="area_id" property="areaId"></id>
+            <result column="area_name" property="areaName"></result>
+        </association>
+        <association property="shopCategory" javaType="com.ht.shop.entity.ShopCategory">
+            <id column="shop_category_id" property="shopCategoryId"></id>
+            <result column="category_name" property="categoryName"></result>
+        </association>
+    </resultMap>
+
+    <insert id="insertShop" useGeneratedKeys="true" keyColumn="shop_id" keyProperty="shopId">
+      INSERT INTO
+      tb_shop(shop_id,user_id,area_id,shop_category_id,shop_name,shop_desc,shop_addr,
+              phone,shop_img,priority,create_time,last_edit_time,enable_status,advice)
+      VALUES (#{shopId},#{userId},#{areaId},#{shopCategoryId},#{shopName},
+              #{shopDesc},#{shopAddr},#{phone},#{shopImg},#{priority},#{createTime},#{lastEditTime},
+              #{enableStatus},#{advice})
+    </insert>
+
+    <update id="updateShop" parameterType="com.ht.shop.entity.Shop">
+      UPDATE tb_shop
+      <set>
+          <if test="shopName!=null">shop_name=#{shopName},</if>
+          <if test="shopDesc!=null">shop_desc=#{shopDesc},</if>
+          <if test="shopAddr!=null">shop_addr=#{shopAddr},</if>
+          <if test="phone!=null">phone=#{phone},</if>
+          <if test="shopImg!=null">shop_img=#{shopImg},</if>
+          <if test="priority!=null">priority=#{priority},</if>
+          <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+          <if test="advice!=null">advice=#{advice},</if>
+          <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
+          <if test="shopCategoryId!=null">shop_category_id=#{shopCategoryId},</if>
+          <if test="areaId!=null">area_id=#{areaId},</if>
+
+      </set>
+      where shop_id = #{shopId}
+    </update>
+
+    <select id="selectShopById" parameterType="java.lang.String" resultMap="shopMap">
+        SELECT
+            s.shop_name,
+            s.shop_desc,
+            s.shop_addr,
+            s.phone,
+            s.shop_img,
+            a.area_id,
+            a.area_name,
+            sc.shop_category_id,
+            sc.category_name
+        FROM
+            tb_shop s,tb_area a,tb_shop_category sc
+        WHERE
+            s.shop_id = 1 and s.area_id = a.area_id and sc.shop_category_id = s.shop_category_id
+    </select>
+
+    <select id="selectShopList" resultType="com.ht.shop.entity.Shop">
+        SELECT * FROM tb_shop WHERE user_id=#{shopCondition.userId} limit #{page},#{size}
+
+    </select>
+</mapper>
