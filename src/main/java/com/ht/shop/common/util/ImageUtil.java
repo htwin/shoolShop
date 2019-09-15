@@ -43,9 +43,9 @@ public class ImageUtil {
 
         //获取缩略图
         Thumbnails.of(thumbnail.getInputStream())
-                .size(200,300)
+                .size(200,200)
                 .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(wartMarkPath)),0.2f)
-                .outputQuality(0.8f)
+                .outputQuality(0.25f)
                 .toFile(targetPath);
 
         return shopImagePath;

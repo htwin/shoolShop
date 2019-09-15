@@ -1,0 +1,11 @@
+2019-08-28 21:44:34.715[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.AreaMapper.queryAreaList - ==>  Preparing: select * from tb_area; 
+2019-08-28 21:44:34.764[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.AreaMapper.queryAreaList - ==> Parameters: 
+2019-08-28 21:44:34.837[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.AreaMapper.queryAreaList - <==      Total: 2
+2019-08-28 21:44:47.001[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - ==>  Preparing: SELECT s.shop_name, s.shop_desc, s.shop_addr, s.phone, s.shopImg, a.area_id a.area_name sc.shop_category_id, sc.category_name FROM tb_shop s,tb_area a,tb_shop_category sc WHERE s.shop_id = 1 and s.area_id = a.area_id and sc.shop_category_id = s.shop_category_id 
+2019-08-28 21:44:47.052[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - ==> Parameters: 
+2019-08-28 21:47:11.506[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - ==>  Preparing: SELECT s.shop_name, s.shop_desc, s.shop_addr, s.phone, s.shop_img, a.area_id, a.area_name, sc.shop_category_id, sc.category_name FROM tb_shop s,tb_area a,tb_shop_category sc WHERE s.shop_id = 1 and s.area_id = a.area_id and sc.shop_category_id = s.shop_category_id 
+2019-08-28 21:47:11.542[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - ==> Parameters: 
+2019-08-28 21:47:11.611[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - <==      Total: 1
+2019-08-28 22:30:27.119[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - ==>  Preparing: SELECT s.shop_name, s.shop_desc, s.shop_addr, s.phone, s.shop_img, a.area_id, a.area_name, sc.shop_category_id, sc.category_name FROM tb_shop s,tb_area a,tb_shop_category sc WHERE s.shop_id = 1 and s.area_id = a.area_id and sc.shop_category_id = s.shop_category_id 
+2019-08-28 22:30:27.152[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - ==> Parameters: 
+2019-08-28 22:30:27.218[%PARSER_ERROR[thead]]DEBUG com.ht.shop.mapper.ShopMapper.selectShopById - <==      Total: 1

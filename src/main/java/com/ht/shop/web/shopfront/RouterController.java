@@ -4,12 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("shopfront")
-public class IndexController {
-
+@RequestMapping("/shopfront")
+public class RouterController {
     @RequestMapping("/index")
     public String index(){
-        return "/shop/index";
+        return "/shopfront/index";
     }
 
+    @RequestMapping("/shopList")
+    public String shopList(){
+        return "/shopfront/shop_list";
+    }
 }

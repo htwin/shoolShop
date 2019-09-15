@@ -15,10 +15,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/shopfront")
-public class ShopParentCategoryController {
+public class ShopFrontController {
 
     @Autowired
     private ShopCategoryService shopCategoryService;
+
+
+
 
 
     @ResponseBody
@@ -32,8 +35,6 @@ public class ShopParentCategoryController {
             e.printStackTrace();
             return new ResponseResult(CommonEnum.FAIL);
         }
-
-
     }
 
 
